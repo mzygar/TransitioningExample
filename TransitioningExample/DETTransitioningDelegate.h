@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface DETTransitioningDelegate : NSObject <UIViewControllerTransitioningDelegate>
-
+@property (nonatomic) CGRect triggerViewRect;
 @end

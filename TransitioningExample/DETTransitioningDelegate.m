@@ -14,6 +14,7 @@
 - (id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
 {
     DETAnimatedTransitioning *transitioning = [DETAnimatedTransitioning new];
+    transitioning.triggerViewRect=_triggerViewRect;
     return transitioning;
 }
 
@@ -22,6 +23,7 @@
 {
     DETAnimatedTransitioning *transitioning = [DETAnimatedTransitioning new];
     transitioning.reverse = YES;
+    transitioning.triggerViewRect=_triggerViewRect;
     return transitioning;
 }
 

@@ -11,5 +11,5 @@
 @interface DETAnimatedTransitioning : NSObject <UIViewControllerAnimatedTransitioning>
 
 @property (nonatomic) BOOL reverse;
-
+@property (nonatomic) CGRect triggerViewRect;
 @end

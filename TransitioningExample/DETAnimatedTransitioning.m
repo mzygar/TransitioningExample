@@ -23,13 +23,13 @@ static NSTimeInterval const DETAnimatedTransitionDurationForMarco = 0.15f;
         [container insertSubview:toViewController.view belowSubview:fromViewController.view];
     }
     else {
-        toViewController.view.transform = CGAffineTransformMakeScale(0, 0);
+        toViewController.view.transform=[self transitionTransformForView:toViewController.view originRect:_triggerViewRect];
         [container addSubview:toViewController.view];
     }
     
     [UIView animateKeyframesWithDuration:DETAnimatedTransitionDuration delay:0 options:0 animations:^{
         if (self.reverse) {
-            fromViewController.view.transform = CGAffineTransformMakeScale(0, 0);
+            fromViewController.view.transform =[self transitionTransformForView:fromViewController.view originRect:_triggerViewRect];
         }
         else {
             toViewController.view.transform = CGAffineTransformIdentity;
@@ -43,6 +43,24 @@ static NSTimeInterval const DETAnimatedTransitionDurationForMarco = 0.15f;
 - (NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext
 {
     return DETAnimatedTransitionDuration;
+}
+
+-(CGAffineTransform)transitionTransformForView:(UIView*)view originRect:(CGRect)originRect
+{
+    CGFloat height=CGRectGetHeight(view.bounds);
+    CGFloat width=CGRectGetWidth(view.bounds);
+    CGFloat scaleX=CGRectGetWidth(_triggerViewRect)/width;
+    CGFloat scaleY=CGRectGetHeight(_triggerViewRect)/height;
+    CGAffineTransform finalTransform=CGAffineTransformConcat(view.transform, CGAffineTransformMakeScale( scaleX, scaleY));
+    finalTransform=CGAffineTransformTranslate(finalTransform,
+                                                               -CGRectGetMidX(view.bounds)/scaleX,
+                                                               -CGRectGetMidY(view.bounds)/scaleY);
+    
+    CGFloat midY=CGRectGetMidY(_triggerViewRect)/scaleY;
+    CGFloat midX=CGRectGetMidX(_triggerViewRect)/scaleX;
+    finalTransform=CGAffineTransformTranslate(finalTransform, midX, midY);
+   
+    return finalTransform;
 }
 
 @end
